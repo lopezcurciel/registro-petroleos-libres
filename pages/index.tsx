@@ -13,15 +13,12 @@ export default function Home() {
       alert('Debes firmar y aceptar la política de protección de datos');
       return;
     }
-
     const signature = sigRef.current?.toDataURL();
-
     const res = await fetch('/api/registro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...form, signature })
     });
-
     if (res.ok) {
       alert('¡Registro enviado correctamente!');
       sigRef.current?.clear();
@@ -32,24 +29,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
       <div className="w-full max-w-4xl">
-        {/* Logo y título */}
         <div className="text-center mb-12">
           <h1 className="text-6xl font-bold tracking-tight">Petroleos Libres</h1>
           <p className="text-2xl mt-4 opacity-80">Registro rápido para facturación</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-
           <input required placeholder="Nombre o Razón Social" className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition" onChange={e => setForm({...form, name: e.target.value})} />
-
           <input required placeholder="DNI / CIF" className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition" onChange={e => setForm({...form, dni: e.target.value})} />
-
           <input required type="email" placeholder="Email" className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition" onChange={e => setForm({...form, email: e.target.value})} />
-
           <input required placeholder="Teléfono" className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition" onChange={e => setForm({...form, phone: e.target.value})} />
-
           <textarea placeholder="Matrículas (una por línea)" rows={4} className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition resize-none" onChange={e => setForm({...form, plates: e.target.value})} />
-
+          
           <select required className="w-full p-6 text-2xl rounded-2xl bg-zinc-900 border border-zinc-800 focus:border-white transition" onChange={e => setForm({...form, billing: e.target.value})}>
             <option value="">Tipo de facturación</option>
             <option>Diaria</option>
@@ -67,3 +58,15 @@ export default function Home() {
             <p className="text-2xl mb-6 text-center">Firma digital</p>
             <SignatureCanvas ref={sigRef} canvasProps={{className: 'bg-black border-2 border-white rounded-2xl w-full h-80'}} />
             <button type="button" onClick={() => sigRef.current?.clear()} className="mt-6 w-full py-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl text-xl font-semibold transition">
+              Borrar firma
+            </button>
+          </div>
+
+          <button type="submit" className="w-full py-8 bg-white text-black text-4xl font-bold rounded-3xl hover:bg-gray-200 transition shadow-2xl">
+            ENVIAR Y FIRMAR
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
